@@ -13,7 +13,8 @@ def _load_steps() -> None:
     """Import modules that register steps. Order of imports = order of `all`."""
     import importlib
 
-    for mod in ("rime.ntsb.ingest", "rime.enso", "rime.ntsb.events", "rime.qa", "rime.power"):
+    for mod in ("rime.ntsb.ingest", "rime.enso", "rime.ntsb.events", "rime.qa", "rime.power",
+                "rime.h1.run"):
         try:
             importlib.import_module(mod)
         except ModuleNotFoundError as e:
