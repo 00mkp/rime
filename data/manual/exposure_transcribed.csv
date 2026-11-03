@@ -1,0 +1,15 @@
+year,category,flight_hours,departures,source,source_url
+1992,airliner,12359715,7880707,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1993,airliner,12706206,8073173,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1994,airliner,13124315,8238306,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1995,airliner,13505257,8457465,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1996,airliner,13746112,8228810,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1997,airliner,15838109,10318383,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1998,airliner,16816555,10979762,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1999,airliner,17555208,11308762,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+2000,airliner,18299257,11468229,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+2001,airliner,17814191,10954832,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+2002,airliner,17290198,10508473,NTSB Aviation Statistical Reports Table 5 (Part 121 sched+nonsched 1992-2011; HTML table),https://www.ntsb.gov/safety/data/Pages/table5.aspx
+1999,ga_piston,23243242,,FAA GA Survey CY1999 Table 3.2 (PDF): Piston Total minus Air Taxi and Air Tours use + Experimental Total,https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy1999/tab_3-2.pdf
+1999,ga_turbine,3867082,,FAA GA Survey CY1999 Table 3.2 (PDF): Turboprop Total + Turbojet Total minus Air Taxi and Air Tours use,https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy1999/tab_3-2.pdf
+1999,helicopter,2744490,,FAA GA Survey CY1999 Table 3.2 (PDF): Rotorcraft Total (all uses),https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy1999/tab_3-2.pdf
