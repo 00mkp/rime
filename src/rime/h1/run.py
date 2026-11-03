@@ -112,7 +112,8 @@ def run_h1() -> None:
 
 
 def _after_run(conf, nc, sens, meta) -> None:
-    """Hook for the summary writer (Task 4)."""
+    from rime.h1.summary import render_summary
+    (paths.RESULTS / "h1" / "summary.md").write_text(render_summary(conf, nc, sens, meta))
 
 
 register("h1", run_h1, "run the locked H1 ENSO tests (requires the prereg-v1 tag)")
