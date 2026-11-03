@@ -71,3 +71,20 @@ def test_real_oni_known_episodes():
     for m in ["1997-12-01", "2015-12-01"]:
         assert out.loc[m, "phase"] == "el_nino" and bool(out.loc[m, "super"])
     assert out.loc["2010-12-01", "phase"] == "la_nina"
+
+
+def test_oni_rounded_to_tenth_before_thresholds():
+    # CPC thresholds the ONI rounded to 0.1: 0.46 -> 0.5 counts; 1.99 -> 2.0 is super
+    from rime.enso import label_phases
+    out = label_phases(_series([0, 0.46, 0.8, 1.99, 0.9, 0.46, 0]))
+    assert out["phase"].iloc[1:6].eq("el_nino").all()
+    assert out["super"].iloc[1:6].all()
+
+
+def test_build_reads_committed_snapshot_without_network(tmp_path, monkeypatch):
+    import rime.enso as enso
+    from rime import paths
+    monkeypatch.setattr(paths, "MANUAL", tmp_path)
+    (tmp_path / "oni_snapshot.txt").write_text(" SEAS  YR   TOTAL   ANOM\n  DJF 1950  25.01  -1.32\n")
+    monkeypatch.setattr(enso, "fetch", lambda *a, **k: (_ for _ in ()).throw(AssertionError("network")))
+    assert "DJF 1950" in enso.load_oni_text()

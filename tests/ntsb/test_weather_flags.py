@@ -18,13 +18,17 @@ def _seq(rows):
     return pd.DataFrame(rows, columns=["ev_id", "Aircraft_Key", "Subj_Code", "Modifier_Code"])
 
 
-def _run(findings=None, occ=None, seq=None, aircraft=None):
+def _evseq(rows):
+    return pd.DataFrame(rows, columns=["ev_id", "Aircraft_Key", "Occurrence_Code"])
+
+
+def _run(findings=None, occ=None, seq=None, aircraft=None, evseq=None):
     from rime.ntsb.weather_flags import weather_flags
     aircraft = aircraft if aircraft is not None else pd.DataFrame(
         {"ev_id": ["E1"], "Aircraft_Key": [1]})
     out = weather_flags(
         findings if findings is not None else _f([]),
-        E.copy(),
+        evseq if evseq is not None else _evseq([]),
         occ if occ is not None else _occ([]),
         seq if seq is not None else _seq([]),
         aircraft=aircraft,
@@ -96,3 +100,20 @@ def test_post2008_wake_turbulence_not_weather():
 def test_post2008_clear_air_turbulence_is_weather():
     out = _run(findings=_f([("E1", 1, "0303201544")]))
     assert bool(out.loc[("E1", 1), "wx_involved"]) is True
+
+
+def test_post2008_weather_occurrence_flags():
+    # Events_Sequence code = 3-digit phase + 3-digit occurrence; 210 = structural icing
+    out = _run(evseq=_evseq([("E1", 1, 402210)]))
+    assert bool(out.loc[("E1", 1), "wx_involved"]) is True
+    assert "seq402210" in out.loc[("E1", 1), "wx_basis"]
+
+
+def test_post2008_wake_occurrence_not_weather():
+    out = _run(evseq=_evseq([("E1", 1, 404361)]))
+    assert bool(out.loc[("E1", 1), "wx_involved"]) is False
+
+
+def test_pre2008_weather_subject_with_light_modifier_not_weather():
+    out = _run(seq=_seq([("E1", 1, 20000, 2302)]))
+    assert bool(out.loc[("E1", 1), "wx_involved"]) is False

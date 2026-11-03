@@ -31,7 +31,8 @@ def label_phases(oni: pd.DataFrame) -> pd.DataFrame:
     labeled by its sign with provisional=True (the episode may still qualify).
     """
     out = oni.sort_values("month").reset_index(drop=True).copy()
-    v = out["oni"].to_numpy()
+    # CPC applies its thresholds to the ONI rounded to 0.1 (round half up)
+    v = np.floor(out["oni"].to_numpy() * 10 + 0.5 + 1e-9) / 10
     sign = np.where(v >= THRESHOLD, 1, np.where(v <= -THRESHOLD, -1, 0))
     phase = np.full(len(v), "neutral", dtype=object)
     episode = np.full(len(v), np.nan)
@@ -60,9 +61,22 @@ def label_phases(oni: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def load_oni_text(refresh: bool = False) -> str:
+    """The committed ONI snapshot (data/manual/oni_snapshot.txt) pins the analysis.
+
+    CPC revises recent ONI values, so a fresh download is taken only when there is
+    no snapshot or refresh=True, and it then replaces the snapshot.
+    """
+    snap = paths.MANUAL / "oni_snapshot.txt"
+    if snap.exists() and not refresh:
+        return snap.read_text()
+    text = fetch(ONI_URL, "oni.ascii.txt", force=True).read_text()
+    snap.write_text(text)
+    return text
+
+
 def build_enso() -> None:
-    raw = fetch(ONI_URL, "oni.ascii.txt", force=True)  # updated monthly by CPC
-    out = label_phases(parse_oni(raw.read_text()))
+    out = label_phases(parse_oni(load_oni_text()))
     paths.PROCESSED.mkdir(parents=True, exist_ok=True)
     out.to_parquet(paths.PROCESSED / "enso_monthly.parquet", index=False)
     print(out.tail(6).to_string(index=False))

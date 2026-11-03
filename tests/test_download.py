@@ -72,3 +72,15 @@ def test_fetch_redownloads_on_checksum_mismatch(data_dir, server):
     path = fetch(url, "file.bin")
     assert hits["n"] == 2
     assert path.read_bytes() == payload
+
+
+def test_fetch_warns_when_pinned_checksum_differs(data_dir, server, tmp_path, monkeypatch, capsys):
+    from rime import paths
+    from rime.download import fetch
+    url, _, _ = server
+    manual = tmp_path / "manual"
+    manual.mkdir()
+    (manual / "data_versions.json").write_text(json.dumps({"file.bin": {"sha256": "0" * 64}}))
+    monkeypatch.setattr(paths, "MANUAL", manual)
+    fetch(url, "file.bin")
+    assert "differs from the pinned version" in capsys.readouterr().out

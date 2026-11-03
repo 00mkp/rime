@@ -48,7 +48,7 @@ def category_for(acft_category, far_part, eng_type, unmanned) -> str | None:
         return None
     cat, part, eng = _norm(acft_category), _norm_part(far_part), _norm(eng_type)
     if cat == "HELI":
-        return None if part == "121" else "helicopter"
+        return "helicopter" if part in GA_PARTS | {"135"} else None
     if cat != "AIR":
         return None
     if part == "121":

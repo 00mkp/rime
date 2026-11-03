@@ -8,7 +8,7 @@ import requests
 
 from rime import paths
 
-USER_AGENT = "rime-research/0.1 (+https://github.com/; public aviation-weather study)"
+USER_AGENT = "rime-research/0.1 (public aviation-weather study)"
 
 
 def _sha256(path: Path) -> str:
@@ -35,6 +35,7 @@ def fetch(url: str, name: str, *, force: bool = False) -> Path:
     manifest = _load_manifest()
     entry = manifest.get(name)
     if not force and dest.exists() and entry and entry.get("sha256") == _sha256(dest):
+        _check_pinned(name, entry["sha256"])
         return dest
 
     part = dest.with_name(dest.name + ".part")
@@ -52,4 +53,20 @@ def fetch(url: str, name: str, *, force: bool = False) -> Path:
         "retrieved_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
     _manifest_path().write_text(json.dumps(manifest, indent=2, sort_keys=True))
+    _check_pinned(name, manifest[name]["sha256"])
     return dest
+
+
+def _check_pinned(name: str, sha256: str) -> None:
+    """Warn when a file differs from the version pinned in data/manual/data_versions.json.
+
+    NTSB re-publishes its database monthly and keeps no archive, so a fresh clone can
+    only get the current file; the warning makes the difference visible.
+    """
+    pinned_path = paths.MANUAL / "data_versions.json"
+    if not pinned_path.exists():
+        return
+    pinned = json.loads(pinned_path.read_text()).get(name)
+    if pinned and pinned.get("sha256") != sha256:
+        print(f"WARNING: {name} differs from the pinned version "
+              f"(retrieved {pinned.get('retrieved_at_utc', '?')}); results may not match the published ones.")
