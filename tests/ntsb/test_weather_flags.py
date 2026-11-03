@@ -86,3 +86,13 @@ def test_real_data_weather_share_positive_every_year():
     share = m.groupby("ev_year")["wx_involved"].mean()
     assert len(share) == 36
     assert (share > 0).all()
+
+
+def test_post2008_wake_turbulence_not_weather():
+    out = _run(findings=_f([("E1", 1, "0303202544")]))
+    assert bool(out.loc[("E1", 1), "wx_involved"]) is False
+
+
+def test_post2008_clear_air_turbulence_is_weather():
+    out = _run(findings=_f([("E1", 1, "0303201544")]))
+    assert bool(out.loc[("E1", 1), "wx_involved"]) is True

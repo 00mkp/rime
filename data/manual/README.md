@@ -6,4 +6,4 @@ Hand-curated inputs, committed to the repo. Each one lists its source here.
 - `wx_codes.csv` decides which NTSB codes count as "weather-involved".
   - **2008 onward:** findings whose code starts with `0303` (Environmental issues → Conditions/weather/phenomena), except light condition (`030360`).
   - **Before 2008:** the sequence-of-events subject `20000` "WEATHER CONDITION", where the modifier code names the weather (e.g. 2213 icing conditions, 2224 turbulence, 2228 thunderstorm), plus occurrence codes 240 and 330 (encounter with weather).
-  - Wake turbulence is excluded explicitly. Code meanings come from the `ct_seqevt` table and the `eADMSPUB_DataDictionary` in the NTSB database.
+  - Wake turbulence is excluded explicitly in both systems (post-2008 finding prefix `03032025`; pre-2008 subject 24715 and occurrence 410). Code meanings come from the `ct_seqevt` table and the `eADMSPUB_DataDictionary` in the NTSB database.

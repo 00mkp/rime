@@ -6,3 +6,4 @@ pre2008,Occurrences,Occurrence_Code,exact,330,On ground/water encounter with wea
 pre2008,Occurrences,Occurrence_Code,exact,410,Vortex turbulence encountered (wake - not weather),0
 pre2008,seq_of_events,Subj_Code,exact,20000,Weather condition (modifier gives the type),1
 pre2008,seq_of_events,Subj_Code,exact,24715,Wake turbulence (not weather),0
+post2008,Findings,finding_code,prefix,03032025,Wake turbulence (not weather),0
