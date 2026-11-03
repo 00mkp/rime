@@ -94,3 +94,38 @@ def test_counts_zero_filled():
     c = hazard_counts(ev, flags, enr).set_index(["year", "category", "hazard"])["count"]
     assert c[(2011, "ga_piston", "icing")] == 0
     assert c[(2010, "airliner", "turbulence")] == 0
+
+
+def _occ(rows):
+    return pd.DataFrame(rows, columns=["ev_id", "Aircraft_Key", "Occurrence_No", "Phase_of_Flight"])
+
+
+def _seqn(rows):
+    return pd.DataFrame(rows, columns=["ev_id", "Aircraft_Key", "Occurrence_No", "Subj_Code", "Modifier_Code"])
+
+
+def _h3(findings=E_F, es=E_ES, seq=None, occ=None):
+    from rime.hazards.classes import enroute_hazard_flags
+    seq = seq if seq is not None else _seqn([])
+    occ = occ if occ is not None else _occ([])
+    return bool(enroute_hazard_flags(findings, es, seq, occ, aircraft=AC).iloc[0].enroute)
+
+
+def test_h3_post2008_hazard_occurrence_must_be_enroute():
+    assert _h3(es=_es([402210])) is True                 # icing in cruise
+    assert _h3(es=_es([508390, 402240])) is False        # storm on approach + LOC in cruise
+
+
+def test_h3_pre2008_links_hazard_to_its_occurrence_phase():
+    seq = _seqn([("E1", 1, 2, 20000, 2213)])
+    assert _h3(seq=seq, occ=_occ([("E1", 1, 1, 541), ("E1", 1, 2, 570)])) is False
+    assert _h3(seq=seq, occ=_occ([("E1", 1, 1, 570), ("E1", 1, 2, 541)])) is True
+
+
+def test_h3_findings_only_hazard_falls_back_to_any_enroute_occurrence():
+    assert _h3(findings=_f(["0303102512"]), es=_es([402240])) is True
+
+
+def test_pre2008_emergency_and_uncontrolled_descent_not_enroute():
+    occ = lambda p: pd.DataFrame({"ev_id": ["E1"], "Aircraft_Key": [1], "Phase_of_Flight": [p]})
+    assert _enroute(occ=occ(552)) is False and _enroute(occ=occ(553)) is False

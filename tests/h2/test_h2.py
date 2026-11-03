@@ -76,3 +76,28 @@ def test_run_h2_reports_missing_indices(tmp_path, monkeypatch, capsys):
     run_h2()
     assert "ERA5 indices missing" in capsys.readouterr().out
     assert not (tmp_path / "results" / "h2").exists()
+
+
+def test_h2a_limited_to_1990_2024():
+    from rime.h2.run import build_h2_rows
+    hc, annual, exp, breaks = _inputs(40)
+    extra = annual.iloc[[-1]].assign(year=2025)
+    rows = build_h2_rows(hc, pd.concat([annual, extra]), exp, breaks)
+    assert (rows.loc[rows.family == "H2a", "n"] == 35).all()
+
+
+def test_sensitivity_post2008_indicator_rows():
+    from rime.h2.run import build_h2_sensitivity
+    s = build_h2_sensitivity(*_inputs(40))
+    assert set(s.sensitivity) == {"post2008_indicator"}
+    assert set(s.family) == {"H2b", "H3b"}
+
+
+def test_link_degenerate_fit_not_estimable_not_infinite():
+    import warnings
+    from rime.h2.run import build_h2_rows
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", RuntimeWarning)
+        rows = build_h2_rows(*_inputs(40))  # ga_piston turbulence: all 40 events in one year
+    r = rows[(rows.family == "H2b") & (rows.category == "ga_piston") & (rows.hazard == "turbulence")].iloc[0]
+    assert r.status == "not_estimable" or (np.isfinite(r.estimate) and np.isfinite(r.ci_hi))

@@ -76,3 +76,47 @@ def test_era5_step_not_in_all():
     from rime import cli
     cli._load_steps()
     assert "era5" in cli._STEPS and "era5" not in cli.all_steps()
+
+
+def test_short_month_fails_validation(tmp_path):
+    from rime.era5.process import process_month, validate_month
+    files = write_month(tmp_path / "m", 2005, 3)
+    df = process_month(2005, 3, files, _conus()).iloc[:-4]
+    with pytest.raises(ValueError, match="expected 124"):
+        validate_month(2005, 3, df)
+
+
+def test_cp_gap_raises(tmp_path):
+    import xarray as xr
+    from rime.era5.process import process_month
+    files = write_month(tmp_path / "m", 2005, 3)
+    ds = xr.open_dataset(files["sl_cp"], engine="h5netcdf").load()
+    ds.isel(valid_time=[i for i in range(ds.sizes["valid_time"]) if i != 30]).to_netcdf(
+        tmp_path / "gap.nc", engine="h5netcdf")
+    files["sl_cp"] = tmp_path / "gap.nc"
+    with pytest.raises(ValueError, match="hourly"):
+        process_month(2005, 3, files, _conus())
+
+
+def test_fetch_parallel_workers(tmp_paths):
+    from rime.era5.download import load_manifest
+    from rime.era5.process import fetch_era5
+    fetch_era5((2005, 3), (2005, 4), workers=2, client_factory=SynthClient, conus=_conus())
+    m = load_manifest()
+    assert m["2005-03"]["status"] == m["2005-04"]["status"] == "done"
+    assert len(pd.read_parquet(tmp_paths / "processed" / "era5_shares.parquet")) == (31 + 30) * 4
+    assert not list((tmp_paths / "processed").glob("*.tmp"))
+
+
+def test_era5_cli_accepts_pilot_options():
+    from rime import cli
+    cli._load_steps()
+    called = {}
+    import rime.era5.process as proc
+    orig = cli._STEPS["era5"]
+    cli._STEPS["era5"] = (lambda **kw: called.update(kw), *orig[1:])
+    try:
+        cli.main(["era5", "--start", "2015-07", "--end", "2015-07", "--max-months", "1", "--keep-raw", "--workers", "3"])
+    finally:
+        cli._STEPS["era5"] = orig
+    assert called == {"start": (2015, 7), "end": (2015, 7), "max_months": 1, "keep_raw": True, "workers": 3}

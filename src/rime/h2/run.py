@@ -38,8 +38,9 @@ def _holm_family(rows: list[dict]) -> list[dict]:
 
 
 def build_h2_rows(hazard_counts: pd.DataFrame, annual: pd.DataFrame, exposure: pd.DataFrame,
-                  breaks: dict[str, bool]) -> pd.DataFrame:
-    a = annual[annual["complete"]].set_index("year")
+                  breaks: dict[str, bool], *, force_break: bool = False) -> pd.DataFrame:
+    """Confirmatory rows. force_break=True gives prereg §5.2 (post-2008 indicator in H2b/H3b)."""
+    a = annual[annual["complete"] & annual["year"].isin(INDEX_YEARS)].set_index("year")
     out = []
     # H2a: two-sided trends of the three hazard indices, 1990–2024
     fam = [_row("H2a", f"{h} index trend", trend_test(a.index, a[col]), hazard=h)
@@ -57,7 +58,8 @@ def build_h2_rows(hazard_counts: pd.DataFrame, annual: pd.DataFrame, exposure: p
             if n < H2B_MIN:
                 fam.append(_row("H2b", f"{h} → {c}", None, category=c, hazard=h, n=n, status="descriptive"))
             else:
-                e = link_test(counts, a.loc[years, col], exp_c.loc[years], break_2008=breaks.get(h, False))
+                e = link_test(counts, a.loc[years, col], exp_c.loc[years],
+                              break_2008=force_break or breaks.get(h, False))
                 fam.append(_row("H2b", f"{h} → {c}", e, category=c, hazard=h))
     out += _holm_family(fam)
     # H3a: one-sided positive trend of the HIWC index
@@ -75,10 +77,16 @@ def build_h2_rows(hazard_counts: pd.DataFrame, annual: pd.DataFrame, exposure: p
                     n=n, status="descriptive")]
     else:
         fam = [_row("H3b", "hiwc → turbine en-route hazard accidents",
-                    link_test(counts, a.loc[years, "hiwc"], hrs.loc[years], break_2008=False),
+                    link_test(counts, a.loc[years, "hiwc"], hrs.loc[years], break_2008=force_break),
                     category="turbine", hazard="h3")]
     out += _holm_family(fam)
     return pd.DataFrame(out)
+
+
+def build_h2_sensitivity(hazard_counts, annual, exposure, breaks) -> pd.DataFrame:
+    rows = build_h2_rows(hazard_counts, annual, exposure, breaks, force_break=True)
+    rows = rows[rows["family"].isin(["H2b", "H3b"])].drop(columns=["p_holm", "reject"])
+    return rows.assign(sensitivity="post2008_indicator")
 
 
 def run_h2() -> None:
@@ -95,11 +103,12 @@ def run_h2() -> None:
         return
     breaks_df = pd.read_csv(paths.RESULTS / "qa" / "hazard_break.csv")
     breaks = dict(zip(breaks_df["hazard"], breaks_df["post2008_indicator"].astype(bool)))
-    rows = build_h2_rows(pd.read_parquet(paths.PROCESSED / "hazard_counts.parquet"), annual,
-                         load_exposure(), breaks)
+    inputs = (pd.read_parquet(paths.PROCESSED / "hazard_counts.parquet"), annual, load_exposure(), breaks)
+    rows = build_h2_rows(*inputs)
     out = paths.RESULTS / "h2"
     out.mkdir(parents=True, exist_ok=True)
     rows.to_csv(out / "confirmatory.csv", index=False)
+    build_h2_sensitivity(*inputs).to_csv(out / "sensitivity.csv", index=False)
     (out / "meta.json").write_text(json.dumps({
         "prereg_sha": sha, "run_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "breaks": breaks}, indent=2))

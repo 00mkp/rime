@@ -6,8 +6,8 @@ pre2008,541,Cruise - normal,1
 pre2008,542,Maneuvering - holding (IFR),1
 pre2008,550,Descent,1
 pre2008,551,Descent - normal,1
-pre2008,552,Descent - emergency,1
-pre2008,553,Descent - uncontrolled,1
+pre2008,552,Descent - emergency,0
+pre2008,553,Descent - uncontrolled,0
 pre2008,522,Takeoff - initial climb,0
 pre2008,570,Landing,0
 post2008,400,Enroute,1

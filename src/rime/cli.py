@@ -2,16 +2,20 @@
 import argparse
 from collections.abc import Callable
 
-_STEPS: dict[str, tuple[Callable[[], None], str, bool]] = {}
+_STEPS: dict[str, tuple[Callable[..., None], str, bool, Callable | None]] = {}
 
 
-def register(name: str, func: Callable[[], None], help: str, *, in_all: bool = True) -> None:
-    """in_all=False keeps a step out of `rime all` (e.g. downloads needing the user's account)."""
-    _STEPS[name] = (func, help, in_all)
+def register(name: str, func: Callable[..., None], help: str, *, in_all: bool = True,
+             configure: Callable | None = None) -> None:
+    """in_all=False keeps a step out of `rime all` (e.g. downloads needing the user's account).
+
+    `configure(parser)` adds step options; parsed options are passed to func as keywords.
+    """
+    _STEPS[name] = (func, help, in_all, configure)
 
 
 def all_steps() -> list[str]:
-    return [n for n, (_, _, in_all) in _STEPS.items() if in_all]
+    return [n for n, (_, _, in_all, _) in _STEPS.items() if in_all]
 
 
 def _load_steps() -> None:
@@ -33,11 +37,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="rime", description=__doc__)
     sub = parser.add_subparsers(dest="step", required=True)
     sub.add_parser("all", help="run every step in order")
-    for name, (_, help_, _) in _STEPS.items():
-        sub.add_parser(name, help=help_)
+    for name, (_, help_, _, configure) in _STEPS.items():
+        p = sub.add_parser(name, help=help_)
+        if configure:
+            configure(p)
     args = parser.parse_args(argv)
     steps = all_steps() if args.step == "all" else [args.step]
     for name in steps:
         print(f"== rime {name}")
-        _STEPS[name][0]()
+        func, _, _, configure = _STEPS[name]
+        if configure and args.step == name:
+            func(**{k: v for k, v in vars(args).items() if k != "step"})
+        else:
+            func()
     return 0

@@ -41,5 +41,7 @@ def link_test(counts: pd.Series, index: pd.Series, hours: pd.Series, *, break_20
     if res is None:
         return Effect(np.nan, np.nan, np.nan, 1.0, n, "not_estimable", "none")
     b, se = res.params["z"], res.bse["z"]
+    if not (np.isfinite(b) and np.isfinite(se) and abs(b) + 1.96 * se < 50):  # degenerate fit
+        return Effect(np.nan, np.nan, np.nan, 1.0, n, "not_estimable", "none")
     return Effect(float(np.exp(b)), float(np.exp(b - 1.96 * se)), float(np.exp(b + 1.96 * se)),
                   float(stats.norm.sf(b / se)), n, "ok", res.rime_model)
