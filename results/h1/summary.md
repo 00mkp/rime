@@ -1,6 +1,6 @@
 # rime H1 results: ENSO and weather-involved accident rates
 
-Pre-registration: tag `prereg-v1` (`18299e7dc71d`). Run: 2026-11-03T01:48:56+00:00.
+Pre-registration: tag `prereg-v1` (`18299e7dc71d`). Run: 2026-11-03T01:56:30+00:00.
 
 ## Short answer
 
@@ -14,12 +14,14 @@ Pre-registration: tag `prereg-v1` (`18299e7dc71d`). Run: 2026-11-03T01:48:56+00:
 - Private piston-plane, El Niño: no detectable relationship; the data rule out effects outside −8% to +11%.
 - Private piston-plane, La Niña: no detectable relationship; the data rule out effects outside −8% to +13%.
 - Helicopter, El Niño: no detectable relationship; the data rule out effects outside −18% to +52%.
-- Helicopter, La Niña: nominally 50% more (95% CI 9–107%) weather-involved accidents (unadjusted p = 0.014), but not significant after correcting for multiple tests (Holm p = 0.12). Exploratory evidence only.
+- Helicopter, La Niña: no detectable relationship after correction (Holm p = 0.12). Nominally 50% more (95% CI 9–107%) weather-involved accidents (unadjusted p = 0.014), so this is exploratory evidence only.
 
 **H1-R:** 0 of 2 tests significant after Holm correction.
 
 - The southern tier's share of weather-involved private piston-plane accidents in El Niño winters: no detectable relationship; the data rule out odds changes outside −10% to +55%.
-- The northern tier's share of weather-involved private piston-plane accidents in La Niña winters: opposite to the predicted direction, odds 29% lower (95% CI 6–47%). The one-sided confirmatory test can't be significant in this direction; treat it as exploratory.
+- The northern tier's share of weather-involved private piston-plane accidents in La Niña winters: no detectable relationship after correction (prediction not supported). The result went opposite to the predicted direction, odds 29% lower (95% CI 6–47%), so the data rule out the predicted increase (odds-ratio upper bound 0.94). Exploratory only.
+
+Each family (H1-N, H1-R) is Holm-corrected separately at α = 0.05; there is no correction across families.
 
 ## Every confirmatory test
 
@@ -35,25 +37,29 @@ Pre-registration: tag `prereg-v1` (`18299e7dc71d`). Run: 2026-11-03T01:48:56+00:
 | H1-N | ga_piston la_nina | 1.02 | 0.916 | 1.13 | 0.759 | 1 | False | 4628 | ok | nb |
 | H1-N | helicopter el_nino | 1.12 | 0.825 | 1.52 | 0.467 | 1 | False | 428 | ok | nb |
 | H1-N | helicopter la_nina | 1.5 | 1.09 | 2.07 | 0.0138 | 0.124 | False | 428 | ok | nb |
-| H1-R | H1-Ra ga_piston southern tier share, el_nino winters | 1.18 | 0.896 | 1.55 | 0.121 | 0.242 | False | 1378 | ok | nb |
-| H1-R | H1-Rb ga_piston northern tier share, la_nina winters | 0.706 | 0.529 | 0.942 | 0.991 | 0.991 | False | 1378 | ok | nb |
+| H1-R | H1-Ra ga_piston southern tier share, el_nino winters | 1.18 | 0.896 | 1.55 | 0.121 | 0.242 | False | 1378 | ok | binomial |
+| H1-R | H1-Rb ga_piston northern tier share, la_nina winters | 0.706 | 0.529 | 0.942 | 0.991 | 0.991 | False | 1378 | ok | binomial |
 
 ## Negative control (non-weather accidents, same models)
 
-| test | rr | ci_lo | ci_hi | p | p_holm | reject | n_events | status |
-|---|---|---|---|---|---|---|---|---|
-| airliner el_nino | 1.13 | 0.864 | 1.48 | 0.375 | 1 | False | 555 | ok |
-| airliner la_nina | 1.18 | 0.877 | 1.59 | 0.275 | 1 | False | 555 | ok |
-| charter el_nino | 1.14 | 0.841 | 1.54 | 0.401 | 1 | False | 476 | ok |
-| charter la_nina | 1.06 | 0.784 | 1.43 | 0.707 |  |  | 476 | ok |
-| ga_turbine el_nino | 1.06 | 0.881 | 1.27 | 0.539 | 1 | False | 1255 | ok |
-| ga_turbine la_nina | 0.97 | 0.798 | 1.18 | 0.757 | 1 | False | 1255 | ok |
-| ga_piston el_nino | 1.02 | 0.965 | 1.07 | 0.556 | 1 | False | 16445 | ok |
-| ga_piston la_nina | 1.08 | 1.02 | 1.14 | 0.00616 | 0.0554 | False | 16445 | ok |
-| helicopter el_nino | 1.07 | 0.93 | 1.23 | 0.348 | 1 | False | 2148 | ok |
-| helicopter la_nina | 1.08 | 0.929 | 1.25 | 0.322 | 1 | False | 2148 | ok |
+Notes: `rr` for H1-R is the odds ratio of the tier's share. `poisson_boundary` means the ML dispersion estimate is 0, so the negative binomial reduces to Poisson. A blank `p_holm` marks an exploratory test.
 
-No negative-control test was significant: ENSO phase doesn't shift non-weather accidents, as expected.
+| family | test | rr | ci_lo | ci_hi | p | p_holm | reject | n_events | status |
+|---|---|---|---|---|---|---|---|---|---|
+| NC | airliner el_nino | 1.13 | 0.864 | 1.48 | 0.375 | 1 | False | 555 | ok |
+| NC | airliner la_nina | 1.18 | 0.877 | 1.59 | 0.275 | 1 | False | 555 | ok |
+| NC | charter el_nino | 1.14 | 0.841 | 1.54 | 0.401 | 1 | False | 476 | ok |
+| NC (exploratory) | charter la_nina | 1.06 | 0.784 | 1.43 | 0.707 |  |  | 476 | ok |
+| NC | ga_turbine el_nino | 1.06 | 0.881 | 1.27 | 0.539 | 1 | False | 1255 | ok |
+| NC | ga_turbine la_nina | 0.97 | 0.798 | 1.18 | 0.757 | 1 | False | 1255 | ok |
+| NC | ga_piston el_nino | 1.02 | 0.965 | 1.07 | 0.556 | 1 | False | 16445 | ok |
+| NC | ga_piston la_nina | 1.08 | 1.02 | 1.14 | 0.00616 | 0.0554 | False | 16445 | ok |
+| NC | helicopter el_nino | 1.07 | 0.93 | 1.23 | 0.348 | 1 | False | 2148 | ok |
+| NC | helicopter la_nina | 1.08 | 0.929 | 1.25 | 0.322 | 1 | False | 2148 | ok |
+
+No negative-control test was significant after Holm correction.
+
+- Nominal only: ga_piston la_nina, non-weather accidents 8% more (95% CI 2–14%) (unadjusted p = 0.006, Holm p = 0.06). If flying activity rises in these months, the matching weather-accident result is harder to read.
 
 ## Sensitivity analyses (pre-specified, not confirmatory)
 
@@ -69,8 +75,8 @@ No negative-control test was significant: ENSO phase doesn't shift non-weather a
 | lag3 | ga_piston | la_nina | 0.947 | 0.85 | 1.06 | 0.323 | 4628 | ok | nb |
 | lag3 | helicopter | el_nino | 0.757 | 0.541 | 1.06 | 0.103 | 428 | ok | poisson_boundary |
 | lag3 | helicopter | la_nina | 0.888 | 0.636 | 1.24 | 0.488 | 428 | ok | poisson_boundary |
-| fatal_wx | airliner | el_nino |  |  |  | 1 | 6 | not_estimable | nb |
-| fatal_wx | airliner | la_nina |  |  |  | 1 | 6 | not_estimable | nb |
+| fatal_wx | airliner | el_nino |  |  |  | 1 | 6 | not_estimable | none |
+| fatal_wx | airliner | la_nina |  |  |  | 1 | 6 | not_estimable | none |
 | fatal_wx | charter | el_nino | 1.89 | 0.821 | 4.33 | 0.135 | 53 | ok | poisson_boundary |
 | fatal_wx | charter | la_nina | 1.3 | 0.515 | 3.29 | 0.578 | 53 | ok | poisson_boundary |
 | fatal_wx | ga_turbine | el_nino | 1.09 | 0.592 | 1.99 | 0.79 | 105 | ok | nb |
@@ -127,7 +133,7 @@ No negative-control test was significant: ENSO phase doesn't shift non-weather a
 
 ## Limitations
 
-- Flight-hour exposure is annual and national. The H1-N design compares months within the same year, so exposure errors can't bias it, but regional traffic isn't observed.
+- Flight-hour exposure is annual and national. The H1-N design compares months within the same year, so year fixed effects absorb errors in annual exposure. Within-year flying activity isn't observed, though, so if people fly more or less in some ENSO months, that would show up as an "effect". The negative control checks for this.
 - The H1-R power figures assumed the tier's share of events (0.40, or a pessimistic 0.20); the shares weren't measured from the data.
 - The power simulation assumed flat seasonality and Poisson month noise around year effects. That simplifies the fitted models.
 - Counts are aircraft involvements, so a midair collision counts once per aircraft. "Fatal" is the event's highest injury.

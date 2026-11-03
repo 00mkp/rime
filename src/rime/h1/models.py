@@ -21,11 +21,11 @@ class Effect:
     p: float
     n_events: int
     status: str  # "ok" | "not_estimable"
-    model: str = "nb"  # "nb" | "poisson_boundary" (NB ML at alpha -> 0)
+    model: str = "nb"  # "nb" | "poisson_boundary" (NB ML at alpha -> 0) | "binomial" | "none"
 
 
 def _not_estimable(n: int) -> Effect:
-    return Effect(np.nan, np.nan, np.nan, 1.0, n, "not_estimable")
+    return Effect(np.nan, np.nan, np.nan, 1.0, n, "not_estimable", "none")
 
 
 def _effect(params, bse, name: str, n: int, one_sided: bool = False) -> Effect:
@@ -119,7 +119,7 @@ def fit_h1r(tier: pd.DataFrame, target: str) -> Effect:
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         res = smf.glm(f"tier_count + rest_count ~ {PHASE}", d, family=sm.families.Binomial()).fit()
-    return _effect(res.params, res.bse, f"{PHASE}[T.{target}]", n, one_sided=True)
+    return _with_model(_effect(res.params, res.bse, f"{PHASE}[T.{target}]", n, one_sided=True), "binomial")
 
 
 def holm(effects: dict[str, Effect]) -> dict[str, tuple[float, bool]]:

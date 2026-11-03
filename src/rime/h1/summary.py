@@ -6,7 +6,7 @@ import pandas as pd
 NAMES = {"airliner": "airliner", "charter": "charter", "ga_piston": "private piston-plane",
          "ga_turbine": "private turbine-plane", "helicopter": "helicopter"}
 PHASE_NAMES = {"el_nino": "El Niño", "la_nina": "La Niña", "super_el_nino": "super El Niño"}
-LIMITATIONS = """- Flight-hour exposure is annual and national. The H1-N design compares months within the same year, so exposure errors can't bias it, but regional traffic isn't observed.
+LIMITATIONS = """- Flight-hour exposure is annual and national. The H1-N design compares months within the same year, so year fixed effects absorb errors in annual exposure. Within-year flying activity isn't observed, though, so if people fly more or less in some ENSO months, that would show up as an "effect". The negative control checks for this.
 - The H1-R power figures assumed the tier's share of events (0.40, or a pessimistic 0.20); the shares weren't measured from the data.
 - The power simulation assumed flat seasonality and Poisson month noise around year effects. That simplifies the fitted models.
 - Counts are aircraft involvements, so a midair collision counts once per aircraft. "Fatal" is the event's highest injury.
@@ -45,15 +45,16 @@ def _sentence(r) -> str:
         if r.reject:
             return f"- {subject}: odds {odds()}, as predicted."
         if r.ci_hi < 1:
-            return (f"- {subject}: opposite to the predicted direction, odds {odds()}. "
-                    "The one-sided confirmatory test can't be significant in this direction; treat it as exploratory.")
+            return (f"- {subject}: no detectable relationship after correction (prediction not supported). "
+                    f"The result went opposite to the predicted direction, odds {odds()}, so the data "
+                    f"rule out the predicted increase (odds-ratio upper bound {r.ci_hi:.2f}). Exploratory only.")
         return f"- {subject}: no detectable relationship; the data rule out odds changes outside {_range(r.ci_lo, r.ci_hi)}."
     if r.reject:
         return f"- {when} months had {_change(r.rr, r.ci_lo, r.ci_hi)} weather-involved {who} accidents than neutral months."
     if excludes_one:
-        return (f"- {_cap(who)}, {when}: nominally {_change(r.rr, r.ci_lo, r.ci_hi)} weather-involved accidents "
-                f"(unadjusted p = {r.p:.3f}), but not significant after correcting for multiple tests "
-                f"(Holm p = {r.p_holm:.2f}). Exploratory evidence only.")
+        return (f"- {_cap(who)}, {when}: no detectable relationship after correction (Holm p = {r.p_holm:.2f}). "
+                f"Nominally {_change(r.rr, r.ci_lo, r.ci_hi)} weather-involved accidents "
+                f"(unadjusted p = {r.p:.3f}), so this is exploratory evidence only.")
     return (f"- {_cap(who)}, {when}: no detectable relationship; the data rule out effects "
             f"outside {_range(r.ci_lo, r.ci_hi)}.")
 
@@ -78,18 +79,31 @@ def render_summary(conf: pd.DataFrame, nc: pd.DataFrame, sens: pd.DataFrame, met
         n_rej = int(f["reject"].fillna(False).astype(bool).sum())
         parts.append(f"**{fam}:** {n_rej} of {len(f)} tests significant after Holm correction.")
         parts.append("\n".join(_sentence(r) for r in f.itertuples(index=False)))
+    parts.append("Each family (H1-N, H1-R) is Holm-corrected separately at α = 0.05; there is no correction across families.")
     parts.append("## Every confirmatory test")
     parts.append(_table(conf, ["family", "test", "rr", "ci_lo", "ci_hi", "p", "p_holm", "reject", "n_events", "status", "model"]))
     parts.append("## Negative control (non-weather accidents, same models)")
-    parts.append(_table(nc, ["test", "rr", "ci_lo", "ci_hi", "p", "p_holm", "reject", "n_events", "status"]))
-    flagged = nc[(nc["family"] == "NC") & nc["reject"].fillna(False).astype(bool)] if not nc.empty else nc
-    if len(flagged):
-        for r in flagged.itertuples(index=False):
-            parts.append(f"ENSO also shifts non-weather accidents for {NAMES.get(r.category, r.category)} "
-                         f"({PHASE_NAMES.get(r.phase, r.phase)}), so the H1-N result for that category "
-                         "may reflect something other than weather.")
-    else:
-        parts.append("No negative-control test was significant: ENSO phase doesn't shift non-weather accidents, as expected.")
+    parts.append("Notes: `rr` for H1-R is the odds ratio of the tier's share. `poisson_boundary` means the ML "
+                 "dispersion estimate is 0, so the negative binomial reduces to Poisson. A blank `p_holm` marks an exploratory test.")
+    parts.append(_table(nc, ["family", "test", "rr", "ci_lo", "ci_hi", "p", "p_holm", "reject", "n_events", "status"]))
+    conf_nc = nc[nc["family"] == "NC"] if not nc.empty else nc
+    flagged = conf_nc[conf_nc["reject"].fillna(False).astype(bool)]
+    nominal = conf_nc[~conf_nc["reject"].fillna(False).astype(bool)
+                      & ((conf_nc["ci_lo"] > 1) | (conf_nc["ci_hi"] < 1))]
+    h1n_sig = set(conf.loc[(conf["family"] == "H1-N") & conf["reject"].fillna(False).astype(bool),
+                           "test"]) if not conf.empty else set()
+    for r in flagged.itertuples(index=False):
+        what = ("so the H1-N result for that category may reflect something other than weather"
+                if r.test in h1n_sig else
+                "so non-weather factors (e.g. how much people fly) shift with ENSO there, which could hide or mimic a weather effect")
+        parts.append(f"ENSO also shifts non-weather accidents for {NAMES.get(r.category, r.category)} "
+                     f"({PHASE_NAMES.get(r.phase, r.phase)}), {what}.")
+    if flagged.empty:
+        parts.append("No negative-control test was significant after Holm correction.")
+    for r in nominal.itertuples(index=False):
+        parts.append(f"- Nominal only: {r.test}, non-weather accidents {_change(r.rr, r.ci_lo, r.ci_hi)} "
+                     f"(unadjusted p = {r.p:.3f}, Holm p = {r.p_holm:.2f}). If flying activity rises in these "
+                     "months, the matching weather-accident result is harder to read.")
     parts.append("## Sensitivity analyses (pre-specified, not confirmatory)")
     parts.append(_table(sens, ["sensitivity", "category", "phase", "rr", "ci_lo", "ci_hi", "p", "n_events", "status", "model"]))
     parts.append("## Limitations")

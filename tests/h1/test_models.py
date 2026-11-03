@@ -73,3 +73,11 @@ def test_fit_h1n_uses_nb_when_overdispersed():
     p = _panel(1.0, seed=5)
     p["count"] = rng.negative_binomial(2, 2 / (2 + 20), len(p))  # alpha = 0.5
     assert fit_h1n(p)["el_nino"].model == "nb"
+
+
+def test_model_labels_binomial_and_none():
+    from rime.h1.models import fit_h1n, fit_h1r
+    assert fit_h1r(_tier(1.2), "el_nino").model == "binomial"
+    p = _panel(1.0)
+    p["count"] = 0
+    assert fit_h1n(p)["el_nino"].model == "none"
