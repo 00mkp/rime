@@ -1,0 +1,6 @@
+category,years,total_wx_accidents,monthly_mean,dispersion,mdrr_el_nino,mdrr_la_nina
+airliner,1997-2024 (28 yrs),304,0.905,0.1341,1.65,1.65
+charter,2004-2024 (20 yrs),189,0.788,0.001,1.75,1.8
+ga_piston,2004-2024 (20 yrs),4498,18.742,0.0779,1.25,1.25
+ga_turbine,2004-2024 (20 yrs),286,1.192,0.7008,1.95,1.95
+helicopter,2004-2024 (20 yrs),443,1.846,0.001,1.45,1.5

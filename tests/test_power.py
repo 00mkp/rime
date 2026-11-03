@@ -51,3 +51,12 @@ def test_dispersion_from_annual_poisson_is_small():
     years = np.arange(1990, 2025)
     counts = rng.poisson(240 - 3 * (years - 1990))
     assert monthly_dispersion(years, counts) < 0.05
+
+
+def test_study_years_respects_primary_start_end_and_gaps():
+    from rime.power import study_years
+    exp_years = set(range(1992, 2025)) - {2011}
+    count_years = set(range(1990, 2027))
+    assert study_years("airliner", exp_years, count_years)[0] == 1997
+    ga = study_years("ga_piston", exp_years, count_years)
+    assert ga[0] == 2004 and ga[-1] == 2024 and 2011 not in ga

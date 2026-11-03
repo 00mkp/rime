@@ -18,7 +18,16 @@ TARGET_POWER = 0.80
 ALPHA = 0.05 / 10  # 5 categories x 2 phases
 N_SIMS = 500
 END_YEAR = 2024  # 2025+ still being entered by NTSB (see results/qa/data_quality.md)
-FIRST_YEAR = 1990
+# Primary periods start after exposure-definition breaks (data/manual/EXPOSURE_SOURCES.md):
+# March 1997 commuter rule moved 10+ seat scheduled ops from Part 135 to 121;
+# FAA redesigned the GA/Part 135 survey in 2004.
+PRIMARY_START = {"airliner": 1997, "charter": 2004, "ga_piston": 2004,
+                 "ga_turbine": 2004, "helicopter": 2004}
+
+
+def study_years(category: str, exposure_years, count_years) -> list[int]:
+    lo = PRIMARY_START[category]
+    return sorted(y for y in set(exposure_years) & set(count_years) if lo <= y <= END_YEAR)
 
 
 def monthly_dispersion(years, counts) -> float:
@@ -93,8 +102,7 @@ def run_power() -> None:
     rng = np.random.default_rng(SEED)
     rows = []
     for cat, c in counts.groupby("category"):
-        years = sorted(set(exposure.loc[exposure.category == cat, "year"])
-                       & set(c["year"]) & set(range(FIRST_YEAR, END_YEAR + 1)))
+        years = study_years(cat, exposure.loc[exposure.category == cat, "year"], c["year"])
         c = c.set_index("year").loc[years]
         months = enso[enso["month"].dt.year.isin(years)].sort_values("month")
         mm = c["wx_accidents"].mean() / 12
