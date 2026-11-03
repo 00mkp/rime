@@ -14,7 +14,10 @@ def data_dir(tmp_path, monkeypatch):
     import rime.download
     importlib.reload(rime.paths)
     importlib.reload(rime.download)
-    return tmp_path / "data"
+    yield tmp_path / "data"
+    monkeypatch.delenv("RIME_DATA_DIR")
+    importlib.reload(rime.paths)  # don't leak tmp paths into later tests
+    importlib.reload(rime.download)
 
 
 @pytest.fixture
