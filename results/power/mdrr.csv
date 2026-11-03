@@ -1,0 +1,8 @@
+family,category,share,years,total_wx_accidents,monthly_mean,year_dispersion,mdrr_el_nino,mdrr_la_nina
+H1-N,airliner,1.0,1997-2024 (28 yrs),308,0.917,0.0159,1.75,1.8
+H1-N,charter,1.0,2004-2024 (20 yrs),195,0.812,0.0001,1.95,
+H1-N,ga_piston,1.0,2004-2024 (20 yrs),4628,19.283,0.0066,1.2,1.2
+"H1-R (winter, tier share)",ga_piston,0.4,2004-2024 (20 yrs),4628,19.283,0.0066,1.4,1.4
+"H1-R (winter, tier share)",ga_piston,0.2,2004-2024 (20 yrs),4628,19.283,0.0066,1.5,1.45
+H1-N,ga_turbine,1.0,2004-2024 (20 yrs),295,1.229,0.0573,1.75,1.8
+H1-N,helicopter,1.0,2004-2024 (20 yrs),428,1.783,0.0001,1.6,1.7

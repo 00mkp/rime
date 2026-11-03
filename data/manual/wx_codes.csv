@@ -1,0 +1,16 @@
+system,table,column,match,code,label,include
+post2008,Findings,finding_code,prefix,0303,Environmental issues - Conditions/weather/phenomena,1
+post2008,Findings,finding_code,prefix,030360,Light condition (not weather),0
+pre2008,Occurrences,Occurrence_Code,exact,240,In flight encounter with weather,1
+pre2008,Occurrences,Occurrence_Code,exact,330,On ground/water encounter with weather,1
+pre2008,Occurrences,Occurrence_Code,exact,410,Vortex turbulence encountered (wake - not weather),0
+pre2008,seq_of_events,Subj_Code+Modifier_Code,subject_modifier,20000:2200-2299,Weather condition with a 22xx weather modifier,1
+pre2008,seq_of_events,Subj_Code,exact,24715,Wake turbulence (not weather),0
+post2008,Findings,finding_code,prefix,03032025,Wake turbulence (not weather),0
+post2008,Events_Sequence,Occurrence_Code,last3,210,Structural icing,1
+post2008,Events_Sequence,Occurrence_Code,last3,360,Turbulence encounter,1
+post2008,Events_Sequence,Occurrence_Code,last3,362,Clear air turbulence encounter,1
+post2008,Events_Sequence,Occurrence_Code,last3,390,Windshear or thunderstorm,1
+post2008,Events_Sequence,Occurrence_Code,last3,400,Other weather encounter,1
+post2008,Events_Sequence,Occurrence_Code,last3,401,VFR encounter with IMC,1
+post2008,Events_Sequence,Occurrence_Code,last3,361,Wake turbulence encounter (not weather),0

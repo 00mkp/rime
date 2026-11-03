@@ -1,0 +1,254 @@
+{
+  "avall.zip": {
+    "bytes": 97140358,
+    "retrieved_at_utc": "2026-11-03T00:44:34+00:00",
+    "sha256": "c1a447835b41104737f8c3fcf6b2bbaa4b6a00f506fe7668b528d3b3a2f78bbc",
+    "url": "https://data.ntsb.gov/avdata/FileDirectory/DownloadFile?fileID=avall.zip"
+  },
+  "exposure/faa_cy1999_tab1-4.pdf": {
+    "bytes": 12463,
+    "retrieved_at_utc": "2026-11-03T01:02:05+00:00",
+    "sha256": "97acde1f5e2b330b81d832a30bfcb0aaf16d6921523accc4e4ec8560d6dce00e",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy1999/tab_1-4.pdf"
+  },
+  "exposure/faa_cy1999_tab1-5.pdf": {
+    "bytes": 8405,
+    "retrieved_at_utc": "2026-11-03T01:02:04+00:00",
+    "sha256": "e90cf28acf698be0ca66bbc7ef878dd998b2ac3f403440e754dc208f8f3d12ab",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy1999/tab_1-5.pdf"
+  },
+  "exposure/faa_cy1999_tab3-2.pdf": {
+    "bytes": 12109,
+    "retrieved_at_utc": "2026-11-03T01:02:04+00:00",
+    "sha256": "c37167c415a043db58ef11175cdc3311d280ae5a6f5b97f82e25375be2441098",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy1999/tab_3-2.pdf"
+  },
+  "exposure/faa_cy2000_ch3.xls": {
+    "bytes": 37376,
+    "retrieved_at_utc": "2026-11-03T00:56:08+00:00",
+    "sha256": "4d3e7cbd6bf3fdc1724bca991e65655f329b0bbfd276af50fa31dfe5a535fa91",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2000/2000%2520GA%2520tab_3-2.xls"
+  },
+  "exposure/faa_cy2001_ch3.xls": {
+    "bytes": 24576,
+    "retrieved_at_utc": "2026-11-03T00:56:08+00:00",
+    "sha256": "fc794345ab786e43fddf1980cc2f1ffa12f2d4f4af4fd55513a64ca913193200",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2001/2001%2520Table%25203.2.xls"
+  },
+  "exposure/faa_cy2002_ch3.xls": {
+    "bytes": 59392,
+    "retrieved_at_utc": "2026-11-03T00:56:09+00:00",
+    "sha256": "17bbe61a6220ae92bee2975f658e0d8c1d9f53e9a78cff06de1b9b3056990a9d",
+    "url": "https://www.faa.gov/2002_GA_Survey_Chapter_3"
+  },
+  "exposure/faa_cy2003_ch3.xls": {
+    "bytes": 89600,
+    "retrieved_at_utc": "2026-11-03T00:56:09+00:00",
+    "sha256": "e368dcf8fc6bdd125544bf9c0b7cf5df1b2633ec605f5a701b76d5946926a032",
+    "url": "https://www.faa.gov/2003_GA_Survey_Chapter_3"
+  },
+  "exposure/faa_cy2004_ch3.xls": {
+    "bytes": 65536,
+    "retrieved_at_utc": "2026-11-03T00:56:09+00:00",
+    "sha256": "07d43cc6f061927bf6822135ed20baac4d135bdfa53c939174154c54f3c25f88",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2004/FAA_2004_3.xls"
+  },
+  "exposure/faa_cy2005_ch3.xls": {
+    "bytes": 68096,
+    "retrieved_at_utc": "2026-11-03T00:56:09+00:00",
+    "sha256": "cb12b5e5b8be3e37a36eb8120e0acbfdb18ab2da2aeef9f6af4a4502a8d93dde",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2005/FAA_2005_3.xls"
+  },
+  "exposure/faa_cy2006_ch3.xls": {
+    "bytes": 62464,
+    "retrieved_at_utc": "2026-11-03T00:56:09+00:00",
+    "sha256": "77ee9f9f04eb6eb1645378635e9787768719b343a6a7c851e485c1a780506d60",
+    "url": "https://www.faa.gov/2006_GA_Survey_Chapter_3"
+  },
+  "exposure/faa_cy2007_ch3.xls": {
+    "bytes": 66048,
+    "retrieved_at_utc": "2026-11-03T00:56:10+00:00",
+    "sha256": "071f49bcfec35b936d03150264416847f1ba86b55b3208aad142cc1d8be821ef",
+    "url": "https://www.faa.gov/2007_GA_Survey_Chapter_3"
+  },
+  "exposure/faa_cy2008_ch3.xls": {
+    "bytes": 59904,
+    "retrieved_at_utc": "2026-11-03T00:56:10+00:00",
+    "sha256": "d6a18a631b7fdb4f4d5c9861709f1273bacbc3e6083ff8d41319f35be4f39aea",
+    "url": "https://www.faa.gov/2008_GA_Survey_Chapter_3"
+  },
+  "exposure/faa_cy2009_ch3.xls": {
+    "bytes": 87040,
+    "retrieved_at_utc": "2026-11-03T00:56:10+00:00",
+    "sha256": "71f02c173b6b03dba566974c334973ed6b2854ca7520050429619e1d5bd75901",
+    "url": "https://www.faa.gov/2009_GA_Survey_Chapter_3"
+  },
+  "exposure/faa_cy2010_ch3.xls": {
+    "bytes": 100864,
+    "retrieved_at_utc": "2026-11-03T00:56:10+00:00",
+    "sha256": "7969b9cc5be3ae9098445db6e3da7fea4655df4dcebe85203ddede6cfaa41fac",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2010/2010_GA_Survey_Chapter3_23DEC2011V3.xls"
+  },
+  "exposure/faa_cy2012_ch3.xls": {
+    "bytes": 105984,
+    "retrieved_at_utc": "2026-11-03T00:56:10+00:00",
+    "sha256": "9c719c74ee35c5600cd8bf30f24fa181721e0be9c0a18add30668e188a634ba1",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2012/2012-GA-Survey-Chapter-3-Tables-16Dec2013-V2.xls"
+  },
+  "exposure/faa_cy2013_ch3.xlsx": {
+    "bytes": 70917,
+    "retrieved_at_utc": "2026-11-03T00:56:11+00:00",
+    "sha256": "7ae433f9368220247442299e13e3fda20a56d2ec67eaf7324869f6d57c746a3e",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2013/2013_GA_Survey_Chapter_3_Tables.xlsx"
+  },
+  "exposure/faa_cy2014_ch1.xlsx": {
+    "bytes": 74027,
+    "retrieved_at_utc": "2026-11-03T01:04:42+00:00",
+    "sha256": "75992046b6a9871de5095bb844844ee9da46e15f6387bec71898797870d72eff",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2014/2014-GA-Survey-Chapter-1-Tables_org.xlsx"
+  },
+  "exposure/faa_cy2014_ch3.xlsx": {
+    "bytes": 105326,
+    "retrieved_at_utc": "2026-11-03T00:56:11+00:00",
+    "sha256": "6fd74d1df1e97de21d2eae7a3e2c4540b847223fcf1d45fbd80074208b77cf15",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2014/2014-GA-Survey-Chapter-3-Tables_org.xlsx"
+  },
+  "exposure/faa_cy2015_ch3.xlsx": {
+    "bytes": 131712,
+    "retrieved_at_utc": "2026-11-03T00:56:11+00:00",
+    "sha256": "e87afe7e3366cabb32b3a846fedbb6b36c768bfd3f2eaa30fbc3c2f85258672e",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2015/2015_GA_Survey_Chapter_3_Tables_16SEP2016V2.xlsx"
+  },
+  "exposure/faa_cy2016_ch3.xlsx": {
+    "bytes": 88214,
+    "retrieved_at_utc": "2026-11-03T00:56:11+00:00",
+    "sha256": "0fe8894c528c2b8fdaf9bbcab76587ed7d0297b2b203d8f54798f3d546d4605a",
+    "url": "https://www.faa.gov/media/72656"
+  },
+  "exposure/faa_cy2017_ch3.xlsx": {
+    "bytes": 47758,
+    "retrieved_at_utc": "2026-11-03T00:56:11+00:00",
+    "sha256": "250ebf149617774ccf2403c502ce85aa6c0cc8b0989ff428d1e77bb8be60c33e",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2017/2017_GA_Survey_Chapter3_Tables_3Dec2018_508_Compliant_V1.xlsx"
+  },
+  "exposure/faa_cy2018_ch3.xlsx": {
+    "bytes": 48232,
+    "retrieved_at_utc": "2026-11-03T00:56:11+00:00",
+    "sha256": "4ff3ee4ca6f5806c1ae9659ada85609a08090dddbeae0b0fe9ef023fc7602b2e",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2018/2018GASurvey_Chapter_3_Tables_508_Compliant_12DEC2019V1_(002)-1.xlsx"
+  },
+  "exposure/faa_cy2019_ch3.xlsx": {
+    "bytes": 76773,
+    "retrieved_at_utc": "2026-11-03T00:56:12+00:00",
+    "sha256": "b447a3c1ad754889bc5ad6b9429ae8e09023fd87952b507abafe79aad17ac02d",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2019/2019GASurvey_Chapter_3_Tables_508_Compliant_24NOV2020V1.xlsx"
+  },
+  "exposure/faa_cy2020_ch3.xlsx": {
+    "bytes": 79438,
+    "retrieved_at_utc": "2026-11-03T00:56:12+00:00",
+    "sha256": "a07f2b99ba899329bf38e271c92649809ffbc8aede610bfd8f4fadd8fcc20469",
+    "url": "https://www.faa.gov/sites/faa.gov/files/data_research/aviation_data_statistics/general_aviation/cy2020/2020GASurvey_Chapter_3_Tables_508_Compliant_03DEC2021V1.xlsx"
+  },
+  "exposure/faa_cy2021_ch3.xlsx": {
+    "bytes": 71159,
+    "retrieved_at_utc": "2026-11-03T00:56:12+00:00",
+    "sha256": "506beb89af651ed5911879946db6e7d2f6dd4bd6712a94dd66c3ada5faea4583",
+    "url": "https://www.faa.gov/sites/faa.gov/files/2021GASurveyCh3_508Compliant_17JAN2023V1.xlsx"
+  },
+  "exposure/faa_cy2022_ch3.xlsx": {
+    "bytes": 72457,
+    "retrieved_at_utc": "2026-11-03T00:56:12+00:00",
+    "sha256": "ceaa7586e632e4405efc876920f29abedc1605b629cbeb8ba0fc65cdcd6b9e58",
+    "url": "https://www.faa.gov/sites/faa.gov/files/2022GASurveyCh3_508Compliant_08DEC2023V1.xlsx"
+  },
+  "exposure/faa_cy2023_ch3.xlsx": {
+    "bytes": 70751,
+    "retrieved_at_utc": "2026-11-03T00:56:12+00:00",
+    "sha256": "8fe2c2991f5f639fcc17eec64d09781cf7094f3a5686c4884224320282ef5937",
+    "url": "https://www.faa.gov/sites/faa.gov/files/2023GASurveyCh3_508Compliant_04DEC2024V1.xlsx"
+  },
+  "exposure/faa_cy2024_ch1.xlsx": {
+    "bytes": 83247,
+    "retrieved_at_utc": "2026-11-03T01:04:41+00:00",
+    "sha256": "b416a12ae525d2170831d6dbbba0ea3ba09d8356e7314aa6916ad185e3410aeb",
+    "url": "https://www.faa.gov/data_research/aviation_data_statistics/general_aviation/cy2024/2024GASurveyCh1.xlsx"
+  },
+  "exposure/faa_cy2024_ch3.xlsx": {
+    "bytes": 78032,
+    "retrieved_at_utc": "2026-11-03T00:56:13+00:00",
+    "sha256": "555a595d42fa7517372c97bae61d7d9d8182cd3177cfff934194589ef2f77554",
+    "url": "https://www.faa.gov/data_research/aviation_data_statistics/general_aviation/cy2024/2024GASurveyCh3.xlsx"
+  },
+  "exposure/ntsb_ARA1101.pdf": {
+    "bytes": 5520615,
+    "retrieved_at_utc": "2026-11-03T01:02:05+00:00",
+    "sha256": "4ffc93c27a2db5474d276e548abba1e2d43e6626bad934d2d207e01afc41c445",
+    "url": "https://www.ntsb.gov/safety/data/Documents/ARA1101.pdf"
+  },
+  "exposure/ntsb_ARA1201.pdf": {
+    "bytes": 2532006,
+    "retrieved_at_utc": "2026-11-03T01:02:05+00:00",
+    "sha256": "b7b004351942553d4848b97f73e18043a63d6f9e2891efc26cd6ba000822f993",
+    "url": "https://www.ntsb.gov/safety/data/Documents/ARA1201.pdf"
+  },
+  "exposure/ntsb_ARA1401.pdf": {
+    "bytes": 2217581,
+    "retrieved_at_utc": "2026-11-03T01:02:05+00:00",
+    "sha256": "70b1270a3790015cfbeef4094cb267603af6c97597a90966b947d6f729dca131",
+    "url": "https://www.ntsb.gov/safety/data/Documents/ARA1401.pdf"
+  },
+  "exposure/ntsb_ar2012_part121.xlsx": {
+    "bytes": 58796,
+    "retrieved_at_utc": "2026-11-03T01:04:13+00:00",
+    "sha256": "2726f51bff2f684679f7262588fbbf659cec2e6df519d2e777abe61afd2c5d02",
+    "url": "https://www.ntsb.gov/safety/data/Documents/datafiles/AnnualReview_2012_Public_2_Part121_20140113_Final.xlsx"
+  },
+  "exposure/ntsb_ar2012_part135.xlsx": {
+    "bytes": 98568,
+    "retrieved_at_utc": "2026-11-03T01:04:13+00:00",
+    "sha256": "3952f51b7d38f8031eb5df95a6776454f40edd0f7cbb5d07bd1126333178b14c",
+    "url": "https://www.ntsb.gov/safety/data/Documents/datafiles/AnnualReview_2012_Public_3_Part135_20140113_Final.xlsx"
+  },
+  "exposure/ntsb_ar2013_part121.xls": {
+    "bytes": 105984,
+    "retrieved_at_utc": "2026-11-03T00:58:10+00:00",
+    "sha256": "95b2f1d22858cd5f2eb693244690b474ccc5d10c563528c7503a3d6b9bf52fb0",
+    "url": "https://www.ntsb.gov/safety/data/Documents/datafiles/AnnualReview_2013_Public_2_Part121_20150218.xls"
+  },
+  "exposure/ntsb_ar2013_part135.xls": {
+    "bytes": 193024,
+    "retrieved_at_utc": "2026-11-03T00:58:10+00:00",
+    "sha256": "e339387fb05e4acafc6b954bc6b4e6ebf209113a37e6e00515872872652aa386",
+    "url": "https://www.ntsb.gov/safety/data/Documents/datafiles/AnnualReview_2013_Public_3_Part135_20150218.xls"
+  },
+  "exposure/ntsb_ar2019_part121.xlsx": {
+    "bytes": 62624,
+    "retrieved_at_utc": "2026-11-03T00:58:10+00:00",
+    "sha256": "ba45b5217d489db3083c1f66d776fb387e6eef738c807f7676c424f671646ca9",
+    "url": "https://www.ntsb.gov/safety/data/Documents/datafiles/AnnualReview_2019_Public_2_Part121_20211215.xlsx"
+  },
+  "exposure/ntsb_ar2019_part135.xlsx": {
+    "bytes": 104137,
+    "retrieved_at_utc": "2026-11-03T00:58:10+00:00",
+    "sha256": "0a1690075d8d32683569e7332f7cbf58e0755780f63f843196341e99cd25f666",
+    "url": "https://www.ntsb.gov/safety/data/Documents/datafiles/AnnualReview_2019_Public_3_Part135_20211215.xlsx"
+  },
+  "exposure/ntsb_stats_2005_2024.xlsx": {
+    "bytes": 4276088,
+    "retrieved_at_utc": "2026-11-03T00:58:10+00:00",
+    "sha256": "83c00410f2004fbb9457cec8d01eef2b2c69badc2b3a0e21ed90d9366bbeb284",
+    "url": "https://www.ntsb.gov/safety/Documents/AviationAccidentStatistics_2005-2024_20260112.xlsx"
+  },
+  "oni.ascii.txt": {
+    "bytes": 23025,
+    "retrieved_at_utc": "2026-11-03T00:50:24+00:00",
+    "sha256": "5d6fa3a2f857d916550d39c2c686e94cb942430195c82518e6a5d0f5ffbd0665",
+    "url": "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
+  },
+  "pre2008.zip": {
+    "bytes": 154517908,
+    "retrieved_at_utc": "2026-11-03T00:44:44+00:00",
+    "sha256": "89e2df6d848e7ab3b42e7d7c7a03ff403303057a26ca04c95b3ea67201c3ce74",
+    "url": "https://data.ntsb.gov/avdata/FileDirectory/DownloadFile?fileID=Pre2008.zip"
+  }
+}
