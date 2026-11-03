@@ -27,3 +27,18 @@ share.to_csv(out / "coding_break.csv")
 print(share.round(3).to_string())
 print(f"ratio mean(2008-10)/mean(2005-07) = {ratio:.3f}")
 print("OK: within 0.67-1.5" if 0.67 <= ratio <= 1.5 else "STOP: outside 0.67-1.5 — report to user")
+
+# --- Per-hazard break check (prereg §3 H2: run after lock, before H2b) ---------------------
+hz = pd.read_parquet(paths.PROCESSED / "hazard_counts.parquet")
+hz = hz[hz.hazard.isin(["icing", "turbulence", "convective"]) & hz.year.between(2003, 2013)]
+wx_by_year = m.groupby("ev_year")["wx_involved"].sum()
+rows = []
+for h, g in hz.groupby("hazard"):
+    per_year = g.groupby("year")["count"].sum() / wx_by_year
+    r = per_year.loc[2008:2010].mean() / per_year.loc[2005:2007].mean()
+    rows.append({"hazard": h, "share_2005_07": per_year.loc[2005:2007].mean(),
+                 "share_2008_10": per_year.loc[2008:2010].mean(), "ratio": r,
+                 "post2008_indicator": not (0.67 <= r <= 1.5)})
+hb = pd.DataFrame(rows)
+hb.to_csv(out / "hazard_break.csv", index=False)
+print(hb.round(3).to_string(index=False))
