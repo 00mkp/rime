@@ -46,7 +46,11 @@ FE = f"count ~ {PHASE} + C(year) + C(month)"
 
 
 def _fit_nb(panel: pd.DataFrame):
-    """Discrete NB2 with year and month fixed effects; first converging optimizer wins.
+    return fit_nb(FE, panel)
+
+
+def fit_nb(formula: str, data: pd.DataFrame, offset=None):
+    """Discrete NB2, ML dispersion; first converging optimizer wins.
 
     When NB fails because the data show no overdispersion, the ML solution is on the
     boundary alpha -> 0, i.e. the Poisson model; that fit is returned with
@@ -54,12 +58,12 @@ def _fit_nb(panel: pd.DataFrame):
     """
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        pois = smf.glm(FE, panel, family=sm.families.Poisson()).fit()
+        pois = smf.glm(formula, data, family=sm.families.Poisson(), offset=offset).fit()
         start = np.append(pois.params.to_numpy(), 0.05)
         alphas = []
         for method in ("newton", "bfgs", "lbfgs", "nm"):
             try:
-                res = smf.negativebinomial(FE, panel).fit(start_params=start, method=method,
+                res = smf.negativebinomial(formula, data, offset=offset).fit(start_params=start, method=method,
                                                          maxiter=2000, disp=0)
             except (np.linalg.LinAlgError, ValueError):
                 continue
