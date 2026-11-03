@@ -1,6 +1,6 @@
 # rime pre-registration (Part 1)
 
-**Status: DRAFT, not locked.** It locks when the user approves it and it's tagged `prereg-v1`. The tag's commit SHA and date get recorded here after locking.
+**Status: LOCKED.** Approved by the author and tagged `prereg-v1` on 2026-11-02, at commit `18299e7dc71d7894ccd9b7b36ee050436ef8edb3`. To check that nothing confirmatory changed afterward, run `git diff prereg-v1 -- prereg/hypotheses.md`. The only post-lock edit is this status line.
 
 ## What this document does
 
