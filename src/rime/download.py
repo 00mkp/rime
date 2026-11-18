@@ -32,6 +32,7 @@ def fetch(url: str, name: str, *, force: bool = False) -> Path:
     """Download url to RAW/name unless a verified cached copy exists."""
     paths.RAW.mkdir(parents=True, exist_ok=True)
     dest = paths.RAW / name
+    dest.parent.mkdir(parents=True, exist_ok=True)
     manifest = _load_manifest()
     entry = manifest.get(name)
     if not force and dest.exists() and entry and entry.get("sha256") == _sha256(dest):
