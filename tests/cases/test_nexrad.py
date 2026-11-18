@@ -36,3 +36,20 @@ def test_list_volumes_kamx():
     keys = list_volumes("KAMX", datetime(2026, 11, 1, 17, 35), datetime(2026, 11, 1, 17, 57))
     assert any(k.endswith("KAMX20261101_174548_V06") for k in keys)
     assert not any(k.endswith("_MDM") for k in keys)
+
+
+def test_fill_codes_masked():
+    from rime.cases.nexrad import valid_dbz
+    v = valid_dbz(np.array([-33.0, -32.5, -32.0, 5.0, np.nan]))
+    assert v.tolist() == [False, False, True, True, False]
+
+
+@pytest.mark.slow
+def test_real_volume_has_no_fill_values():
+    from rime import paths
+    from rime.cases.nexrad import volume_points
+    f = paths.RAW / "cases" / "KAMX20261101_174548_V06"
+    if not f.exists():
+        pytest.skip("volume not cached")
+    p = volume_points(f)
+    assert p.dbz.min() >= -32.0 and len(p) < 6_000_000

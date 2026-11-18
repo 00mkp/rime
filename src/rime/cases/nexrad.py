@@ -39,11 +39,40 @@ def fetch_volume(key: str) -> Path:
     return fetch(f"{BUCKET}/{key}", f"cases/{Path(key).name}")
 
 
-def volume_points(path: Path) -> pd.DataFrame:
-    """Every valid reflectivity gate in the volume: lat, lon, beam-center height, dBZ."""
+FILL_MAX_DBZ = -32.5  # xradar decodes raw code 0 (below threshold) to −33.0 and 1 (range folded) to −32.5
+
+
+def valid_dbz(dbz: np.ndarray) -> np.ndarray:
+    """True for real reflectivity; False for NaN and the Level II fill codes."""
+    dbz = np.asarray(dbz, float)
+    return np.isfinite(dbz) & (dbz > FILL_MAX_DBZ)
+
+
+def _open(path: Path):
     import xradar  # noqa: F401  (registers the "nexradlevel2" engine)
 
-    tree = xr.open_datatree(str(path), engine="nexradlevel2")
+    return xr.open_datatree(str(path), engine="nexradlevel2")
+
+
+def sweep_times(path: Path, range_km: float) -> pd.DataFrame:
+    """Per reflectivity sweep: elevation, first/last ray time (UTC), beam-centre height at range_km."""
+    tree = _open(path)
+    alt0 = float(tree.ds["altitude"])
+    rows = []
+    for name in tree.children:
+        sw = tree[name].to_dataset()
+        if not name.startswith("sweep") or "DBZH" not in sw:
+            continue
+        t = pd.to_datetime(sw["time"].values)
+        el = float(np.nanmedian(sw["elevation"].values))
+        rows.append({"elevation": round(el, 1), "start_utc": f"{t.min():%H:%M:%S}", "end_utc": f"{t.max():%H:%M:%S}",
+                     "height_km_at_range": round(float(beam_height_m(range_km * 1000, el, alt0)) / 1000, 1)})
+    return pd.DataFrame(rows)
+
+
+def volume_points(path: Path) -> pd.DataFrame:
+    """Every valid reflectivity gate in the volume: lat, lon, beam-center height, dBZ."""
+    tree = _open(path)
     root = tree.ds
     lat0, lon0, alt0 = (float(root[v]) for v in ("latitude", "longitude", "altitude"))
     frames = []
@@ -58,7 +87,7 @@ def volume_points(path: Path) -> pd.DataFrame:
         az = sw["azimuth"].values
         el = float(np.nanmedian(sw["elevation"].values))
         R, A = np.meshgrid(rng, az)
-        ok = np.isfinite(dbz)
+        ok = valid_dbz(dbz)
         if not ok.any():
             continue
         lat, lon = gate_latlon(lat0, lon0, R[ok], A[ok], el)
