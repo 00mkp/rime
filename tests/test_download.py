@@ -84,3 +84,9 @@ def test_fetch_warns_when_pinned_checksum_differs(data_dir, server, tmp_path, mo
     monkeypatch.setattr(paths, "MANUAL", manual)
     fetch(url, "file.bin")
     assert "differs from the pinned version" in capsys.readouterr().out
+
+
+def test_fetch_creates_nested_dirs(data_dir, server):
+    from rime.download import fetch
+    url, payload, _ = server
+    assert fetch(url, "sub/dir/file.bin").read_bytes() == payload

@@ -23,7 +23,7 @@ def _load_steps() -> None:
     import importlib
 
     for mod in ("rime.ntsb.ingest", "rime.enso", "rime.ntsb.events", "rime.qa", "rime.hazards.classes", "rime.power", "rime.era5.process",
-                "rime.h2.run",
+                "rime.h2.run", "rime.cases.learjet",
                 "rime.h1.run"):
         try:
             importlib.import_module(mod)

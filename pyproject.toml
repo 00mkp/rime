@@ -20,6 +20,8 @@ dependencies = [
     "regionmask>=0.13.0",
     "cdsapi>=0.7.7",
     "h5py>=3.16.0",
+    "xradar>=0.13.0",
+    "matplotlib>=3.11.2",
 ]
 
 [project.scripts]
