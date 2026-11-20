@@ -22,6 +22,8 @@ REJECT = [
     "an AIRMET for occasional moderate turbulence below 8,000 feet msl",
     "cloud tops were reported at 12,000 feet msl",
     "the freezing level was about 9,000 feet msl",
+    "the density altitude was calculated to be about 7,457 feet",
+    "a private airport that was 941 feet msl",
     None,
     "",
 ]
@@ -39,3 +41,10 @@ def test_rejects(text):
     from rime.catalog.altitude import extract_altitude
     a, r, span = extract_altitude(text)
     assert math.isnan(a) and r == "" and span == ""
+
+
+def test_span_capped_at_160():
+    from rime.catalog.altitude import extract_altitude
+    text = "x" * 300 + " at an altitude of about 2,500 feet msl " + "y" * 300
+    a, r, span = extract_altitude(text)
+    assert a == 2500 and len(span) <= 160 and "2,500" in span

@@ -34,6 +34,7 @@ def test_literal_time_and_scope():
 
 def test_invalid_time_and_non_utc():
     assert _row(time=2460.0)[1].time_flag == "no_time"
+    assert _row(time=975.0)[1].time_flag == "no_time"
     _, r = _row(tz="EST")
     assert r.time_flag == "no_time" and pd.isna(r.time_utc)
 
@@ -64,3 +65,26 @@ def test_summary_states_altitude_caveat():
     from rime.catalog.build import build_catalog, render_summary
     md = render_summary(build_catalog(*_inputs()))
     assert "not necessarily the altitude at the moment of the accident" in md
+
+
+def test_unchecked_when_no_daynight_info():
+    import numpy as np
+    from rime.catalog.build import build_catalog
+    ea, ev, es, occ, narr, ct = _inputs(time=1200.0)
+    ev["light_cond"] = "DUSK"
+    r = build_catalog(ea, ev, es, occ, narr, ct).set_index("ev_id").loc["E1"]
+    assert r.time_flag == "unchecked"
+
+
+def test_weather_defining_events_withheld():
+    _, r = _row(es_rows=[("E1", 1, 450401, "Maneuvering VFR encounter with IMC", True)])
+    assert r.defining_event == "" and r.phase == "maneuvering"
+    _, r = _row(occ_rows=[("E1", 1, 1, 240, 541)])
+    assert r.defining_event == "" and r.phase == "cruise"
+
+
+def test_summary_tables_and_time_caveats():
+    from rime.catalog.build import build_catalog, render_summary
+    md = render_summary(build_catalog(*_inputs()))
+    assert "## Coverage by aircraft category" in md and "## Phase by source database" in md
+    assert "lower bound" in md and "24-hour" in md

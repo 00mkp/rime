@@ -12,11 +12,12 @@ PATTERNS = [  # (regex, group index of number, scale, fixed ref or None → from
 ]
 REJECT_BEFORE = re.compile(
     r"runway|elevation|visibility|ceiling|overcast|broken|scattered|pattern altitude|traffic pattern|"
-    r"filed|planned|forecast|airmet|sigmet|below|above|tops|bases|freezing level|minimum|MEA|MOCA", re.I)
+    r"filed|planned|forecast|airmet|sigmet|below|above|tops|bases|freezing level|minimum|MEA|MOCA|"
+    r"density altitude|airport (?:that )?(?:was|is)|located at", re.I)
 REF_NORM = {"mean sea level": "msl", "above ground level": "agl"}
 REJECT_AFTER = re.compile(r"^[ -]*(?:long|wide|runway)", re.I)
 VALID_FT = (100, 51_000)
-CONTEXT = 60
+SPAN_MAX = 160
 
 
 def extract_altitude(text: str | None) -> tuple[float, str, str]:
@@ -33,6 +34,7 @@ def extract_altitude(text: str | None) -> tuple[float, str, str]:
                 continue
             raw = (m.groupdict().get("ref") or "unspecified").lower()
             ref = fixed_ref or REF_NORM.get(raw, raw)
-            span = text[max(0, m.start() - CONTEXT):m.end() + CONTEXT]
+            pad = max(0, (SPAN_MAX - (m.end() - m.start())) // 2)
+            span = text[max(0, m.start() - pad):m.end() + pad][:SPAN_MAX]
             return ft, ref, span
     return math.nan, "", ""
