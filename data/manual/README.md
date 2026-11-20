@@ -9,3 +9,4 @@ Hand-curated inputs, committed to the repo. Each one lists its source here.
   - Code meanings come from the `ct_seqevt` table and the `eADMSPUB_DataDictionary` in the NTSB database.
 - `oni_snapshot.txt`: NOAA CPC ONI as retrieved on 2026-11-02. The analysis reads this pinned copy, because CPC revises recent values. Source: https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt
 - `data_versions.json`: sha256 and retrieval date of every downloaded input, pinned for the pre-registration.
+- `phase_map.csv` maps NTSB phase-of-flight codes to one harmonized phase for the crash catalog: the post-2008 Events_Sequence 3-digit phase prefix, and the pre-2008 `Occurrences.Phase_of_Flight`. "Initial climb" counts as takeoff, and emergency/uncontrolled descent counts as descent, in both systems. Codes absent from the data dictionary (0, 310, 340, 546) map to unknown.
